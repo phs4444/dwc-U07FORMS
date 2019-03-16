@@ -76,6 +76,11 @@ class Person {
         return 'Person - Nombre: ' + this._name + ', Apellido1: ' + this._lastname1 + ', Apellido2: ' + this._lastname2 +
             ', Fecha de nacimiento: ' + this._born + ', Imagen: ' + this._picture;
     }
+
+    //método fullName
+    fullName() {
+        return this._name + ' ' + this._lastname1 + ((this._lastname2) ? (' ' + this._lastname2) : '');
+    }
 }
 
 class Category {

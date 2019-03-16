@@ -94,7 +94,7 @@ function modificarCategorias() {
     let formAddCat = document.createElement('form');
     formAddCat.setAttribute('id', 'f0');
     formAddCat.classList.add('needs-validation', 'position-relative');
-    formAddCat.setAttribute('novalidate', 'novalidate');
+    // formAddCat.setAttribute('novalidate', 'novalidate');
     let divRowFormAddCat = document.createElement('div');
     divRowFormAddCat.classList.add('d-flex', 'align-items-center', 'border', 'py-2', 'border-success');
     //input name categoría   div > label+input
@@ -304,7 +304,7 @@ function crearDivResultadoOperacion(mensaje, tipo) {
     let divGestion = document.getElementById('divGestion');
     divGestion.appendChild(resultadoDiv);
     setTimeout(() => resultadoDiv.style.opacity = '0', 2000);
-  
+
 
 
     return divResultado;
@@ -382,7 +382,7 @@ function deleteCategory(form, oldCat, catName) {
             document.getElementById(formId).appendChild(resultadoInfo);
             let resultadoDiv = document.getElementById(resultadoInfo.id);
             setTimeout(() => resultadoDiv.style.opacity = '0', 3000);
-          
+
         }
     }
 }
@@ -390,8 +390,31 @@ function deleteCategory(form, oldCat, catName) {
 function modificarActors() {
     showActors();
     //de los actores cogemos los sections, clonamos uno y lo ponemos al principio que será el añadir nuevo
+    let h2 = document.getElementsByTagName('h2');
+
+    /* buscador que no funciona
+    let inputSearch = document.createElement('input');
+        inputSearch.classList.add('form-control');
+    inputSearch.setAttribute('type', 'text');
+       inputSearch.setAttribute('placeholder', 'Buscador...');
+       inputSearch.setAttribute('id','searchToggle');
+    h2[0].appendChild(inputSearch);
+
+
+$(document).ready(function(){
+
+    $("#searchToggle").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("section:not(:first-of-type)").filter(function() {
+      let section=$(this).parent();
+     console.log($(this).children("a").text().indexOf("Tejero"));
+          $(this).toggle($(this).children("a").attr("href").text().toLowerCase().indexOf(value) > -1);
+        });
+    });
+})
+*/
     let sections = document.getElementsByTagName('section');
-    console.log(sections);
+
     let parentSections = sections[0].parentElement;
     let section0Clone = sections[0].cloneNode(true);
     section0Clone.classList.add('d-block', 'justify-content-center');
@@ -502,82 +525,383 @@ function getPersonData(tipo, persona) {
     //
     let h2 = document.createElement('h2');
     h2.classList.add('display-4');
-if (persona === 'new'){
-    persona = new Person('John', 'Doe', '',new Date(), 'img/new_actor.jpg');
-}
-    let h2TextNode = document.createTextNode('Datos del' + tipo);
+    if (persona === 'new') {
+        persona = new Person('John', 'Doe', '', new Date(), 'img/new_actor.jpg');
+    }
+    let h2TextNode = document.createTextNode('Datos del ' + tipo);
     h2.appendChild(h2TextNode);
-    let personaFullName = persona._name + ' ' + persona._lastname1 + ((persona._lastname2) ? (' ' + persona._lastname2) : '');
+    contenedorPrincipal.appendChild(h2);
+    let personaFullName = persona.fullName();
     let section = document.createElement('section');
-    section.classList.add('img-thumbnail', 'd-flex', 'align-items-center', 'bg-secondary', 'text-light', 'p-2', 'm-1');
+    section.classList.add('img-thumbnail', 'd-flex', 'bg-secondary', 'text-light', 'p-2', 'm-1');
     section.style.boxShadow = '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)';
     let divImg = document.createElement('div');
     divImg.classList.add('m-3');
     let imgActor = document.createElement('img');
-    imgActor.style.width = '321px';
-    imgActor.style.height = '476px';
+    imgActor.style.width = '16em';
+    imgActor.style.height = '24em';
     imgActor.classList.add('card-text', 'img-thumbnail', 'rounded');
     imgActor.setAttribute('src', persona._picture);
     imgActor.style.objectFit = 'cover';
     imgActor.setAttribute('alt', personaFullName);
     divImg.appendChild(imgActor);
 
+    //div grande derecho
     let divDatos = document.createElement('div');
-    divDatos.classList.add('m-3');
-    let h4 = document.createElement('h4');
-    let h4TextNode = document.createTextNode(personaFullName);
-    h4.appendChild(h4TextNode);
-    let p = document.createElement('p');
-    let fechaNacimiento = 'Fecha de Nacimiento: ' + escribirFecha(persona._born) + ' ';
-    let pTextNode = document.createTextNode(fechaNacimiento);
-    p.appendChild(pTextNode);
-    let edad = getAge(persona._born);
-    let span = document.createElement('span');
-    span.classList.add('badge', 'badge-warning');
-    let spanTextNode = document.createTextNode(edad + ' años');
-    span.appendChild(spanTextNode);
-    p.appendChild(span);
-    let h5Producciones = document.createElement('h5');
-    let h5TextNode = document.createTextNode('Producciones:');
-    h5Producciones.appendChild(h5TextNode);
-    divDatos.appendChild(h4);
-    divDatos.appendChild(p);
-    divDatos.appendChild(h5Producciones);
+    divDatos.classList.add('d-flex', 'flex-column', 'm-3');
 
-if (personaFullName !== 'John Doe') {
+    //divs para los inputs de datos 
+    //div superior
+    let divSuperior = document.createElement('div');
+    divSuperior.classList.add('d-flex');
+    let divInputs = document.createElement('div');
+    let divAddProductions = document.createElement('div');
+    divSuperior.appendChild(divInputs);
+    divSuperior.appendChild(divAddProductions);
+    //divs para producciones actuales
+    let divInferior = document.createElement('div');
+
+    //añado a divDatos divSuperior y divInferior
+    divDatos.appendChild(divSuperior);
+    divDatos.appendChild(divInferior);
 
 
-    let divProducciones = document.createElement('div');
-    divProducciones.classList.add('d-flex', 'p-2');
-    persona.productions.forEach(element => {
-        let div = document.createElement('div');
-        div.classList.add('d-flex', 'p-2', 'flex-column', 'align-items-center');
-        let img = document.createElement('img');
-        img.classList.add('rounded');
-        img.setAttribute('src', element.production._image);
-        img.setAttribute('alt', element.production._title);
-        img.style.width = '143px';
-        img.style.height = '211px';
-        img.style.cursor = 'pointer';
-        img.addEventListener('click', () => showProduction(img.alt));
-        let p = document.createElement('p');
-        let aTextNode = document.createTextNode('as ' + element.character);
-        p.appendChild(aTextNode);
-        div.appendChild(img);
-        div.appendChild(p);
-        divProducciones.appendChild(div);
-    });
-    divDatos.appendChild(divProducciones);
-}
+
+    //formulario actor
+    let formAddActor = document.createElement('form');
+    formAddActor.setAttribute('id', 'f0');
+    formAddActor.classList.add('needs-validation', 'position-relative');
+    // formAddActor.setAttribute('novalidate', 'novalidate');
+
+    //input nombre actor
+    let labelAddActorName = document.createElement('label');
+    labelAddActorName.setAttribute('for', 'f0-name');
+    labelAddActorName.innerHTML = 'Nombre:';
+    let inputAddActorName = document.createElement('input');
+    inputAddActorName.classList.add('form-control');
+    inputAddActorName.setAttribute('type', 'text');
+    inputAddActorName.setAttribute('required', 'required');
+    inputAddActorName.setAttribute('id', 'f0-name');
+    inputAddActorName.setAttribute('placeholder', persona._name);
+    //aviso de error
+    let divValidateName = document.createElement('div');
+    divValidateName.setAttribute('id', 'f0-errorCatName');
+    divValidateName.classList.add('invalid-feedback');
+    divValidateName.innerHTML = 'Introduzca un nombre válido.';
+
+    //input apellido1 actor
+    let labelAddActorSurname1 = document.createElement('label');
+    labelAddActorSurname1.setAttribute('for', 'f0-surname1');
+    labelAddActorSurname1.innerHTML = 'Apellido1:'
+    let inputAddActorSurname1 = document.createElement('input');
+    inputAddActorSurname1.classList.add('form-control');
+    inputAddActorSurname1.setAttribute('type', 'text');
+    inputAddActorSurname1.setAttribute('required', 'required');
+    inputAddActorSurname1.setAttribute('id', 'f0-surname1');
+    inputAddActorSurname1.setAttribute('placeholder', persona._lastname1);
+    //input apellido2 actor
+    let labelAddActorSurname2 = document.createElement('label');
+    labelAddActorSurname2.setAttribute('for', 'f0-surname2');
+    labelAddActorSurname2.innerHTML = 'Apellido2:'
+    let inputAddActorSurname2 = document.createElement('input');
+    inputAddActorSurname2.classList.add('form-control');
+    inputAddActorSurname2.setAttribute('type', 'text');
+    inputAddActorSurname2.setAttribute('id', 'f0-surname2');
+    inputAddActorSurname2.setAttribute('placeholder', persona._lastname2);
+
+    //input birthDate actor
+    let labelAddActorBirthDate = document.createElement('label');
+    labelAddActorBirthDate.setAttribute('for', 'f0-birthdate');
+    labelAddActorBirthDate.innerHTML = 'Fecha de nacimiento:';
+    let inputAddActorBirthDate = document.createElement('input');
+    inputAddActorBirthDate.classList.add('form-control');
+    inputAddActorBirthDate.setAttribute('type', 'date');
+    inputAddActorBirthDate.setAttribute('required', 'true');
+    inputAddActorBirthDate.setAttribute('id', 'f0-birthdate');
+ 
+    inputAddActorBirthDate.setAttribute('value', new Date(persona._born));
+
+
+    //input imagen actor
+    let labelAddActorImage = document.createElement('label');
+    labelAddActorImage.setAttribute('for', 'f0-image');
+    labelAddActorImage.innerHTML = 'URL imagen:';
+    let inputAddActorImage = document.createElement('input');
+    inputAddActorImage.classList.add('form-control');
+    inputAddActorImage.setAttribute('type', 'url');
+    inputAddActorImage.setAttribute('required', 'required');
+    inputAddActorImage.setAttribute('id', 'f0-image');
+    inputAddActorImage.setAttribute('placeholder', persona._picture);
+
+    formAddActor.appendChild(divInputs);
+    divInputs.appendChild(labelAddActorName);
+    divInputs.appendChild(inputAddActorName);
+    divInputs.appendChild(divValidateName);
+    divInputs.appendChild(labelAddActorSurname1);
+    divInputs.appendChild(inputAddActorSurname1);
+    divInputs.appendChild(labelAddActorSurname2);
+    divInputs.appendChild(inputAddActorSurname2);
+    divInputs.appendChild(labelAddActorBirthDate);
+    divInputs.appendChild(inputAddActorBirthDate);
+    divInputs.appendChild(labelAddActorImage);
+    divInputs.appendChild(inputAddActorImage);
+
+    divSuperior.appendChild(formAddActor);
+
+    divSuperior.appendChild(divAddProductions);
+    //botón añadir actor
+    let addActorButton = document.createElement('button');
+    addActorButton.setAttribute('type', 'button');
+    addActorButton.classList.add('btn', 'btn-dark', 'mb-3');
+    addActorButton.innerHTML = 'Añadir/Modificar actor';
+
+    addActorButton.addEventListener('click', () => addPerson(formAddActor, persona, tipo));
+   
+    
+    //divAddProductions en collapseButton -> divResources
+    let collapseButton = document.createElement('button');
+    collapseButton.setAttribute('type', 'button');
+    collapseButton.setAttribute('id', 'button-prod');
+    collapseButton.classList.add('btn', 'btn-dark', 'mb-3');
+    collapseButton.setAttribute('data-toggle', 'collapse');
+    collapseButton.setAttribute('data-target', '#resources');
+    let collapseButtonTextNode = document.createTextNode('Añadir producciones');
+    collapseButton.appendChild(collapseButtonTextNode);
+
+    if (persona.fullName() == 'John Doe') {
+        collapseButton.setAttribute('disabled', 'true');
+    }
+    divAddProductions.classList.add('d-flex', 'p-2', 'align-items-start', 'flex-grow-1');
+    divAddProductions.appendChild(addActorButton);
+    divAddProductions.appendChild(collapseButton);
+    let divResources = document.createElement('div');
+    divResources.classList.add('collapse', 'bg-warning');
+    divResources.setAttribute('id', 'resources');
+    divAddProductions.appendChild(divResources);
+
+    //en divResources van las produccines para añadirlas al actor
+    //1ro comprobar si la produccion ya la tiene asignada y pinta las otras
+    let producciones = vs.productions;
+    let produccion = producciones.next();
+    //contador para los formularios
+    let i = 0;
+    while (!produccion.done) {
+        let p = produccion.value;
+        let encontrado = false;
+        p.casting.forEach((e) => {
+            if (e.actor == persona) encontrado = true;
+        })
+        if (!encontrado) {
+            let sectionP = document.createElement('section');
+            sectionP.classList.add('img-thumbnail', 'bg-secondary', 'text-white', 'd-flex', 'align-items-center', 'p-1');
+            sectionP.style.boxShadow = '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)';
+
+            //creo el formulario
+            let form = document.createElement('form');
+            form.setAttribute('id', 'f' + i);
+            form.classList.add('needs-validation', 'position-relative', 'd-flex', 'flex-grow-1');
+            // form.setAttribute('novalidate', 'novalidate');
+
+            let divImg = document.createElement('div');
+            divImg.classList.add('col-12', 'col-md-4', 'm-1');
+            divImg.style.flexGrow = '0';
+
+            let divDatos = document.createElement('div');
+            divDatos.classList.add('col-12', 'col-md-7', 'col-md-3');
+
+            let img = document.createElement('img');
+            img.classList.add('img-thumbnail', 'card-text');
+            img.setAttribute('src', p._image);
+            img.setAttribute('width', '60px');
+
+            img.setAttribute('alt', p._title);
+            divImg.appendChild(img);
+            divImg.style.maxWidth = '8em';
+            sectionP.appendChild(divImg);
+            let divForm = document.createElement('div');
+            let h5 = document.createElement('h5');
+            h5.classList.add('text-warning');
+            h5.innerHTML = p._title;
+            divImg.appendChild(h5);
+
+            //añado los radio buttons para rol
+            let divRadio1 = document.createElement('div');
+            divRadio1.classList.add('form-check-inline');
+            divRadio1.innerHTML = 'Protagonista ';
+            let label1 = document.createElement('label');
+            label1.classList.add('form-check-label');
+            label1.setAttribute('for', 'radio1' + i);
+            let input1 = document.createElement('input');
+            input1.classList.add('form-check-input');
+            input1.setAttribute('id', 'radio1' + i);
+            input1.setAttribute('type', 'radio');
+            input1.setAttribute('name', 'rol');
+            input1.setAttribute('default', 'default');
+            input1.setAttribute('value', 'protagonista');
+            divRadio1.appendChild(label1);
+            divRadio1.appendChild(input1);
+
+
+
+            //añado los radio buttons para rol
+            let divRadio2 = document.createElement('div');
+            divRadio2.classList.add('form-check-inline');
+            divRadio2.innerHTML = 'Secundario ';
+            let label2 = document.createElement('label');
+            label2.classList.add('form-check-label');
+            label2.setAttribute('for', 'radio2' + i);
+            let input2 = document.createElement('input');
+            input2.classList.add('form-check-input', 'text-danger');
+            input2.setAttribute('id', 'radio2' + i);
+            input2.setAttribute('type', 'radio');
+            input2.setAttribute('name', 'rol');
+            input2.setAttribute('value', 'secundario');
+            input2.appendChild(document.createTextNode('secundario'));
+            divRadio2.appendChild(input2);
+            divRadio2.appendChild(label2);
+
+
+
+            divForm.classList.add('d-flex');
+            divForm.appendChild(divRadio1);
+            divForm.appendChild(divRadio2);
+
+            //input personaje
+            let divFormPersonaje = document.createElement('div');
+            divFormPersonaje.classList.add('form-check');
+            let labelPersonaje = document.createElement('label');
+            labelPersonaje.setAttribute('for', 'f0-name');
+            labelPersonaje.innerHTML = 'Personaje:'
+            let inputPersonaje = document.createElement('input');
+            inputPersonaje.classList.add('form-control');
+            inputPersonaje.setAttribute('type', 'text');
+            inputPersonaje.setAttribute('id', 'f0-name');
+            inputPersonaje.setAttribute('placeholder', 'personaje ...');
+            divFormPersonaje.appendChild(labelPersonaje);
+            divFormPersonaje.appendChild(inputPersonaje);
+
+            //botón asignar producciones
+            let buttonAssignActor = document.createElement('button');
+            buttonAssignActor.classList.add('btn', 'p-0');
+            buttonAssignActor.setAttribute('type', 'submit');
+            let buttonIconPlus = document.createElement('i');
+            buttonIconPlus.classList.add('btn', 'fas', 'fa-plus-circle', 'text-success');
+            buttonIconPlus.style.fontSize = '1.3em';
+            buttonAssignActor.appendChild(buttonIconPlus);
+console.log(persona);
+            buttonAssignActor.addEventListener('click', () => assignActor(p, form, persona));
+
+            //contador para los id de los forms
+            i++;
+
+            divForm.appendChild(divFormPersonaje);
+            form.appendChild(divForm);
+            form.appendChild(buttonAssignActor);
+            sectionP.appendChild(form);
+            divResources.appendChild(sectionP);
+
+        }
+
+
+
+
+        produccion = producciones.next();
+
+    }
+
+
+
+    if (personaFullName !== 'John Doe') {
+        let h5Producciones = document.createElement('h5');
+        let h5TextNode = document.createTextNode('Producciones:');
+        h5Producciones.appendChild(h5TextNode);
+
+        divInferior.appendChild(h5Producciones);
+
+
+
+        let divProducciones = document.createElement('div');
+        divProducciones.classList.add('d-flex', 'p-2');
+        persona.productions.forEach(element => {
+            let div = document.createElement('div');
+            div.classList.add('d-flex', 'p-2', 'flex-column', 'align-items-center');
+            let img = document.createElement('img');
+            img.classList.add('rounded');
+            img.setAttribute('src', element.production._image);
+            img.setAttribute('alt', element.production._title);
+            img.style.width = '143px';
+            img.style.height = '211px';
+            img.style.cursor = 'pointer';
+            img.addEventListener('click', () => showProduction(img.alt));
+            let p = document.createElement('p');
+            let aTextNode = document.createTextNode('as ' + element.character);
+            p.appendChild(aTextNode);
+            div.appendChild(img);
+            div.appendChild(p);
+            divProducciones.appendChild(div);
+        });
+        divDatos.appendChild(divProducciones);
+    }
 
     section.appendChild(divImg);
     section.appendChild(divDatos);
     contenedorPrincipal.appendChild(section);
 }
 
+function addPerson(form, persona, tipo) {
+    let inputs = form.getElementsByTagName('input');
 
+    if (inputs[0].value == '') { crearDivResultadoOperacion('Introduzca nombre de actor válido', 'error') }
+    if (inputs[1].value == '') { crearDivResultadoOperacion('Introduzca apellido1 de actor válido', 'error') }
+    if (inputs[3].value == '') { crearDivResultadoOperacion('Introduzca una fecha válida', 'error') }
 
+   
+    try {
+        persona = new Person(inputs[0].value, inputs[1].value, inputs[2].value, new Date(inputs[3].value), inputs[4].value);
 
+        if (tipo == 'actor') {
+            vs.addActor(persona);
+            crearDivResultadoOperacion('Actor añadido/modificado con éxito', 'success');
+        } else if (tipo == 'director') {
+            vs.addDirector(persona);
+        }
+        document.getElementById('button-prod').removeAttribute('disabled');
+      
+    } catch (e) {
+        crearDivResultadoOperacion(e, 'error');
+    }finally{
+
+    }
+
+}
+
+function assignActor(production, form, persona) {
+    let inputs = form.getElementsByTagName('input');
+    console.log(production);
+    console.log(form);
+    console.log(persona);
+    console.log(inputs[0].value);
+    console.log(inputs[1].value);
+    console.log(inputs[2].value);
+
+    if (inputs[0].value == '') { crearDivResultadoOperacion('Introduzca nombre de actor válido', 'error') }
+    if (inputs[1].value == '') { crearDivResultadoOperacion('Introduzca apellido1 de actor válido', 'error') }
+
+    
+    try {
+        persona = new Person(inputs[0].value, inputs[1].value, inputs[2].value, new Date(inputs[3].value), inputs[4].value);
+        if (tipo == 'actor') {
+            vs.addActor(persona);
+            crearDivResultadoOperacion('Actor añadido/modificado con éxito', 'success');
+        } else if (tipo == 'director') {
+            vs.addDirector(persona);
+        }
+        document.getElementById('button-prod').removeAttribute('disabled');
+    } catch (e) {
+        crearDivResultadoOperacion(e, 'error');
+    }
+
+}
 
 
 

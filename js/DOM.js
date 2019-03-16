@@ -66,7 +66,10 @@ function initPopulate() {
     let directores = [d01, d02, d03, d04];
 
     //temporadas y series
-    let se1 = [new Season('Temporada 01', [{ title: 'El jefe', episode: r1 }])];
+    let se1 = [new Season('Temporada 01', [{
+        title: 'El jefe',
+        episode: r1
+    }])];
     let s1 = new Serie('The Office', 'EEUU', new Date(2005, 11), 'Corrosivo retrato de los miembros de una empresa. Versión americana de una popular serie británica de la BBC del mismo título.', 'https://m.media-amazon.com/images/M/MV5BMjE0YWE2MzMtMTQ4Yi00ODM0LTlhMzAtYTZkM2Q3YzU4OTgyXkEyXkFqcGdeQXVyNTA4NzY1MzY@._V1_SY1000_CR0,0,706,1000_AL_.jpg', se1);
     let s2 = new Serie('Friends', 'EEUU', new Date(1996, 12), ' "Friends" narra las aventuras y desventuras de seis jóvenes de Nueva York. Rachel (Jennifer Aniston), Monica (Courteney Cox), Phoebe (Lisa Kudrow), Ross (David Schwimmer), Chandler (Matthew Perry) y Joey (Matt LeBlanc) forman una unida pandilla de amigos que viven en Manhattan y que suelen reunirse en sus apartamentos o en su bar habitual, el Central Perk. A pesar de los numerosos cambios que se producen en sus vidas, su amistad es inquebrantable en la dura batalla por salir adelante en sus periplos profesionales y personales.', 'https://m.media-amazon.com/images/M/MV5BNDVkYjU0MzctMWRmZi00NTkxLTgwZWEtOWVhYjZlYjllYmU4XkEyXkFqcGdeQXVyNTA4NzY1MzY@._V1_.jpg');
     let s3 = new Serie('Halt & Catch Fire', 'EEUU', new Date(2014, 6, 1), 'Ambientada a principios de los 80, la serie dramatiza el auge de los ordenadores a través de los ojos de un visionario, un ingeniero y un prodigio cuyas innovaciones se enfrentan directamente a los gigantes corporativos de la época.', 'https://m.media-amazon.com/images/M/MV5BMTczNjAyMDg1Nl5BMl5BanBnXkFtZTgwMDQyNTA2OTE@._V1_.jpg', se1);
@@ -173,7 +176,7 @@ function showHomePage() {
         divRow.classList.add('row');
         categoria.value.productions.forEach(function (pro) {
             let divCol = document.createElement('div');
-            divCol.classList.add('col-4', 'col-md-3', 'col-lg-2');
+            divCol.classList.add('col-4', 'col-md-3');
             let img = document.createElement('img');
             img.classList.add('img-thumbnail');
             img.setAttribute('src', pro._image);
@@ -232,10 +235,10 @@ function showActors() {
     let actor = actores.next();
     while (actor.done !== true) {
         let section = document.createElement('section');
-        section.classList.add('img-thumbnail', 'col-6', 'col-sm-4', 'col-md-3', 'col-lg-2', 'd-flex', 'flex-column', 'align-items-center', 'p-2', 'm-1', 'alert', 'alert-light');
+        section.classList.add('img-thumbnail', 'col-6', 'col-sm-4', 'col-md-3', 'd-flex', 'flex-column', 'align-items-center', 'p-2', 'm-1', 'alert', 'alert-light');
         let imgActor = document.createElement('img');
-        imgActor.style.width = '214px';
-        imgActor.style.height = '317px';
+        imgActor.style.width = '14em';
+        imgActor.style.height = '20em';
         imgActor.classList.add('card-text', 'img-thumbnail');
         imgActor.setAttribute('src', actor.value._picture);
         imgActor.style.objectFit = 'cover';
@@ -274,10 +277,10 @@ function showDirectors() {
     let actor = directores.next();
     while (actor.done !== true) {
         let section = document.createElement('section');
-        section.classList.add('img-thumbnail', 'col-6', 'col-sm-4', 'col-md-3', 'col-lg-2', 'd-flex', 'flex-column', 'align-items-center', 'p-2', 'm-1', 'alert', 'alert-light');
+        section.classList.add('img-thumbnail', 'col-6', 'col-sm-4', 'col-md-3', 'd-flex', 'flex-column', 'align-items-center', 'p-2', 'm-1', 'alert', 'alert-light');
         let imgActor = document.createElement('img');
-        imgActor.style.width = '214px';
-        imgActor.style.height = '317px';
+        imgActor.style.width = '14em';
+        imgActor.style.height = '20em';
         imgActor.classList.add('card-text', 'img-thumbnail');
         imgActor.setAttribute('src', actor.value._picture);
         imgActor.style.objectFit = 'cover';
@@ -287,7 +290,8 @@ function showDirectors() {
         imgActor.addEventListener('click', () => showDirector(actorFullName));
         let a = document.createElement('a');
         a.classList.add('alert-link');
-        a.setAttribute('href', '#'); a.addEventListener('click', () => showDirector(actorFullName));
+        a.setAttribute('href', '#');
+        a.addEventListener('click', () => showDirector(actorFullName));
         let aTextNode = document.createTextNode(actorFullName);
         a.appendChild(aTextNode);
 
@@ -315,7 +319,7 @@ function showActor(actor) {
         personaFullName = '';
     while (!encontrado && !persona.done) {
         personaFullName = persona.value._name + ' ' + persona.value._lastname1 + ((persona.value._lastname2) ? (' ' + persona.value._lastname2) : '');
-        (personaFullName === actor) ? encontrado = true : persona = personas.next();
+        (personaFullName === actor) ? encontrado = true: persona = personas.next();
     }
     let section = document.createElement('section');
     section.classList.add('img-thumbnail', 'd-flex', 'align-items-center', 'bg-secondary', 'text-light', 'p-2', 'm-1');
@@ -323,8 +327,8 @@ function showActor(actor) {
     let divImg = document.createElement('div');
     divImg.classList.add('m-3');
     let imgActor = document.createElement('img');
-    imgActor.style.width = '321px';
-    imgActor.style.height = '476px';
+    imgActor.style.width = '20em';
+    imgActor.style.height = '30em';
     imgActor.classList.add('card-text', 'img-thumbnail', 'rounded');
     imgActor.setAttribute('src', persona.value._picture);
     imgActor.style.objectFit = 'cover';
@@ -362,8 +366,8 @@ function showActor(actor) {
         img.classList.add('rounded');
         img.setAttribute('src', element.production._image);
         img.setAttribute('alt', element.production._title);
-        img.style.width = '143px';
-        img.style.height = '211px';
+        img.style.width = '9em';
+        img.style.height = '13em';
         img.style.cursor = 'pointer';
         img.addEventListener('click', () => showProduction(img.alt));
         let p = document.createElement('p');
@@ -381,7 +385,8 @@ function showActor(actor) {
 
 function escribirFecha(date) {
     let meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-        'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+        'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+    ];
     let resultado = date.getDate() + ' de ' + meses[date.getMonth()] + ' de ' + date.getFullYear();
     return resultado;
 }
@@ -407,7 +412,7 @@ function showDirector(actor) {
         personaFullName = '';
     while (!encontrado && !persona.done) {
         personaFullName = persona.value._name + ' ' + persona.value._lastname1 + ((persona.value._lastname2) ? (' ' + persona.value._lastname2) : '');
-        (personaFullName === actor) ? encontrado = true : persona = personas.next();
+        (personaFullName === actor) ? encontrado = true: persona = personas.next();
     }
     let section = document.createElement('section');
     section.classList.add('img-thumbnail', 'd-flex', 'align-items-center', 'bg-info', 'text-dark', 'p-2', 'm-1');
@@ -417,8 +422,8 @@ function showDirector(actor) {
     let divDatos = document.createElement('div');
     divDatos.classList.add('m-3');
     let imgActor = document.createElement('img');
-    imgActor.style.width = '321px';
-    imgActor.style.height = '476px';
+    imgActor.style.width = '20em';
+    imgActor.style.height = '30em';
     imgActor.classList.add('card-text', 'img-thumbnail', 'rounded');
     imgActor.setAttribute('src', persona.value._picture);
     imgActor.style.objectFit = 'cover';
@@ -453,8 +458,8 @@ function showDirector(actor) {
         let img = document.createElement('img');
         img.setAttribute('src', element._image);
         img.setAttribute('alt', element._title);
-        img.style.width = '143px';
-        img.style.height = '211px';
+        img.style.width = '9em';
+        img.style.height = '13em';
         img.style.cursor = 'pointer';
         img.addEventListener('click', () => showProduction(img.alt));
         let p = document.createElement('p');
@@ -477,7 +482,7 @@ function showProductions(categoria) {
         cat = categorias.next(),
         encontrado = false;
     while (!encontrado && !cat.done) {
-        (categoria === cat.value._name) ? encontrado = true : cat = categorias.next();
+        (categoria === cat.value._name) ? encontrado = true: cat = categorias.next();
     }
     let h2 = document.createElement('h2');
     h2.classList.add('display-4');
@@ -503,8 +508,8 @@ function showProductions(categoria) {
         img.classList.add('img-thumbnail');
         img.setAttribute('src', element._image);
         img.setAttribute('alt', element._title);
-        img.style.width = '215px';
-        img.style.height = '317px';
+        img.style.width = '13em';
+        img.style.height = '20em';
         let a = document.createElement('a');
         a.classList.add('alert-link');
         a.setAttribute('href', '#');
@@ -533,7 +538,7 @@ function showProduction(production) {
         elemento = elementos.next(),
         encontrado = false;
     while (!encontrado && !elemento.done) {
-        (production === elemento.value._title) ? encontrado = true : elemento = elementos.next();
+        (production === elemento.value._title) ? encontrado = true: elemento = elementos.next();
     }
     let section = document.createElement('section');
     section.classList.add('img-thumbnail', 'bg-secondary', 'text-white', 'row', 'd-flex', 'align-items-center', 'p-1');
@@ -542,11 +547,11 @@ function showProduction(production) {
     divImg.classList.add('col-12', 'col-md-4');
     divImg.classList.add('m-3');
     let divDatos = document.createElement('div');
-    divDatos.classList.add('col-12', 'col-md-7', 'm-3');
+    divDatos.classList.add('col-12', 'col-md-7', 'col-md-3');
     let img = document.createElement('img');
     img.classList.add('img-thumbnail', 'card-text');
     img.setAttribute('src', elemento.value._image);
-    img.setAttribute('width', '400px');
+    img.setAttribute('width', '300px');
     img.style.objectFit = 'cover';
     img.setAttribute('alt', elemento.value._title);
     divImg.appendChild(img);
@@ -589,7 +594,7 @@ function showProduction(production) {
 
     divDatos.appendChild(h5Casting);
     let divProducciones = document.createElement('div');
-    divProducciones.classList.add('d-flex', 'p-2');
+    divProducciones.classList.add('d-flex', 'flex-column','p-2');
     let h6Directors = document.createElement('h6');
     if (elemento.value.directors) {
         let h6DirTextNode = document.createTextNode('Directores:');
@@ -604,8 +609,8 @@ function showProduction(production) {
             img.setAttribute('src', element._picture);
             let personaFullName = element._name + ' ' + element._lastname1 + ((element._lastname2) ? (' ' + element._lastname2) : '');
             img.setAttribute('alt', personaFullName);
-            img.style.width = '143px';
-            img.style.height = '211px';
+            img.style.width = '9em';
+            img.style.height = '13em';
             img.style.cursor = 'pointer';
             img.addEventListener('click', () => showDirector(img.alt));
             let p = document.createElement('p');
@@ -636,8 +641,8 @@ function showProduction(production) {
             let personaFullName = element.actor._name + ' ' + element.actor._lastname1 + ((element.actor._lastname2) ? (' ' + element.actor._lastname2) : '');
             img.setAttribute('alt', personaFullName);
             img.style.objectFit = 'cover';
-            img.style.width = '143px';
-            img.style.height = '211px';
+            img.style.width = '9em';
+            img.style.height = '13em';
             img.style.cursor = 'pointer';
             img.addEventListener('click', () => showActor(img.alt));
             let p = document.createElement('p');
@@ -645,7 +650,7 @@ function showProduction(production) {
             p.appendChild(pTextNode);
             div.appendChild(img);
             div.appendChild(p);
-            (element.main) ? divMain.appendChild(div) : divNoMain.appendChild(div);
+            (element.main) ? divMain.appendChild(div): divNoMain.appendChild(div);
         });
         divProducciones.appendChild(divMain);
         divProducciones.appendChild(divNoMain);
@@ -655,6 +660,7 @@ function showProduction(production) {
     section.appendChild(divDatos);
     contenedorPrincipal.appendChild(section);
 }
+
 function clear(element) {
     while (element.firstChild) {
         element.removeChild(element.firstChild);
@@ -665,9 +671,14 @@ document.getElementById('principal').addEventListener('click', showHomePage);
 document.getElementById('boton-actores').addEventListener('click', showActors);
 document.getElementById('boton-directores').addEventListener('click', showDirectors);
 $(document).ready(function () {
-    $('#mibtn').popover
-        ({ title: "<h5>&copy; Las imágenes pueden estar protegidas por derechos de autor.<h5>", content: "<p>Information courtesy of IMDb (<a href='http://www.imdb.com'>http://www.imdb.com</a>). Used with permission.</p>", html: true, placement: "right" });
+    $('#mibtn').popover({
+        title: "<h5>&copy; Las imágenes pueden estar protegidas por derechos de autor.<h5>",
+        content: "<p>Information courtesy of IMDb (<a href='http://www.imdb.com'>http://www.imdb.com</a>). Used with permission.</p>",
+        html: true,
+        placement: "right"
+    });
 });
+
 function init() {
     initPopulate();
     showHomePage();
