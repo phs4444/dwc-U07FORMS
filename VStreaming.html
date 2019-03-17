@@ -13,24 +13,17 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <!-- Personalizado -->
     <link rel="stylesheet" href="css/mi_css.css">
 </head>
 
 <body>
     <header class="container-fluid">
-        <div class="container bg-secondary d-flex justify-content-between">
+        <div class="container bg-secondary d-flex justify-content-center">
             <a href="VStreaming.html"><img src="img/MVS-Logo.png" height="50" alt="logo"></a>
-            <div class="dropdown">
-                <button type="button" id="ibi" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                    Ingresar
-                </button>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Registrarse</a>
-                    <a class="dropdown-item" href="#">Recordar Contraseña</a>
-                </div>
-            </div>
+
         </div>
     </header>
     <!-- Menú con categorías, actores y directores  -->
@@ -63,12 +56,29 @@
                 </li>
             </ul>
         </div>
-        <button id= "closeWindowsBtn" class="btn btn-secondary float-right mr-4">Cerrar Ventanas</button>
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle mr-3" type="button" id="dropdownMenuButton"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Ingresar
+            </button>
+            <form id="login-form" class="dropdown-menu p-2">
+                <div class="form-group">
+                    <label for="loginName">Usuario:</label>
+                    <input type="text" class="form-control" id="loginName">
+                </div>
+                <div class="form-group">
+                    <label for="loginPass">Password:</label>
+                    <input type="password" class="form-control" id="loginPass">
+                </div>
+                <button type="submit" id="login-btn" class="btn btn-primary">Sign in</button>
+            </form>
+        </div>
+        <button id="closeWindowsBtn" class="btn btn-secondary float-right mr-4">Cerrar Ventanas</button>
     </nav>
 
     <main class="container-fluid">
         <div id="contenedor-principal" class="container-fluid">
-            
+
 
         </div>
         <div class="container text-center">
@@ -95,7 +105,8 @@
 
                         <!-- Modal footer -->
                         <div class="modal-footer">
-                            <button type="button" id="acceptDeleteButton" class="btn btn-danger" data-dismiss="modal">Sí, borrar</button>
+                            <button type="button" id="acceptDeleteButton" class="btn btn-danger"
+                                data-dismiss="modal">Sí, borrar</button>
                             <button type="button" class="btn btn-info" data-dismiss="modal">Cancelar</button>
                         </div>
 
@@ -106,7 +117,7 @@
 
 
         <!-- ... -->
-        
+
 
     </main>
 

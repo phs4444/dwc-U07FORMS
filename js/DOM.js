@@ -683,5 +683,6 @@ function init() {
     initPopulate();
     showHomePage();
     categoriesMenuPopulate();
+    checkCookie();
 }
 window.onload = init;

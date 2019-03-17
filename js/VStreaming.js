@@ -132,6 +132,7 @@ var VStreaming = (function () { //La función anónima devuelve un método getIn
                 if (production === null) throw new NullElementException('production');
                 //añadir el array casting con los futuros actores
                 production.casting = [];
+                production.directors =[];
                 var productionPosition = getProductionPosition(production);
                 if (productionPosition !== -1) throw new ElementAlreadyExistException('production');
                 return _productions.push(production);
@@ -446,7 +447,7 @@ var VStreaming = (function () { //La función anónima devuelve un método getIn
             this.getProductionsDirector = function (director) {
                 //compruebo que no son nulos y que son del tipo esperado
                 if (director === null) throw new NullElementException('director');
-                if (!(director instanceof Director)) throw new InvalidAccessConstructorException();
+                if (!(director instanceof Person)) throw new InvalidAccessConstructorException();
                 var directorPosition = getDirectorPosition(director);
                 //si obtengo algún -1 excepción
                 if (directorPosition === -1) throw new NotExistsElementException('director');
